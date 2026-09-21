@@ -1,0 +1,43 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <h1 class="text-2xl">Penguins avec filtre</h1>
+  <div>
+    <a href="/">Accueil</a>
+  </div>
+  <div id="myplot"></div>
+  <select name="species" id="species">
+    <option value="">All species</option>
+    <option value="Adelie">Adelie</option>
+    <option value="Chinstrap">Chinstrap</option>
+    <option value="Gentoo">Gentoo</option>
+  </select>
+  <script>
+    import * as Plot from "@observablehq/plot";
+    import penguins from "../assets/penguins.json";
+
+    const selectSpecies: HTMLInputElement = document.querySelector("#species")!;
+    function affiche() {
+      const species = selectSpecies.value;
+      const plot = Plot.plot({
+        marks: [
+          Plot.dot(penguins, {
+            x: "culmen_length_mm",
+            y: "culmen_depth_mm",
+            stroke: "species",
+            filter: (p) => p.species === species || !species,
+          }),
+        ],
+      });
+  
+      const div = document.querySelector("#myplot");
+      div.innerHTML="",
+      div?.append(plot);
+    }
+
+    selectSpecies.addEventListener("change",affiche)
+    affiche()
+  </script>
+</Layout>

@@ -1,21 +1,27 @@
 ---
-import PlotFigure from "../components/PlotFigure.astro";
 import Layout from "../layouts/Layout.astro";
-import * as Plot from "@observablehq/plot";
-import penguins from "../assets/penguins.json";
+//import penguins from "../assets/penguins.json";
 ---
 
 <Layout>
-  <h1 class="text-2xl">Test Astro et Plot (Observablehq)</h1>
-  <PlotFigure
-    options={{
-      marks: [
-        Plot.dot(penguins, {
-          x: "culmen_length_mm",
-          y: "culmen_depth_mm",
-          stroke: "species",
-        }),
-      ],
-    }}
-  />
+  <h1 class="text-2xl">Graphiques</h1>
+  <div>
+    <ul>
+      <li><a href="/simplePenguins">Simple penguins</a></li>
+      <li><a href="/PenguinsFiltre">Penguins filtre</a></li>
+      <li><a href="/simplePizza">Simple pizza</a></li>
+    </ul>
+  </div>
+  <div id="myplot"></div>
+  <script>
+    import * as Plot from "@observablehq/plot";
+
+    const plot = Plot.rectY(
+      { length: 10000 },
+      Plot.binX({ y: "count" }, { x: Math.random }),
+    ).plot();
+
+    const div = document.querySelector("#myplot");
+    div?.append(plot);
+  </script>
 </Layout>

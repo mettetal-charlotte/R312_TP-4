@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <h1 class="text-2xl">Simple Pizza</h1>
+  <div class="p-2">
+    <a href="/">Accueil</a>
+  </div>
+  <div id="myplot"></div>
+  <script>
+    import * as Plot from "@observablehq/plot";
+    import pizza from "../assets/pizza.json";
+
+    const plot = Plot.plot({
+      marks: [
+        Plot.dot(pizza, {
+          x: "revenue",
+          y: "orders",
+          stroke: "category",
+        }),
+      ],
+    });
+
+    const div = document.querySelector("#myplot");
+    div?.append(plot);
+  </script>
+</Layout>
